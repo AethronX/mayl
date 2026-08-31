@@ -1,0 +1,476 @@
+<title>دفتر صَرْح</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#EDE6D9;
+    --raised:#F6F1E7;
+    --ink:#16243A;
+    --ink-soft:#4A5468;
+    --ink-faint:#8A8375;
+    --brass:#8E6A34;
+    --crystal:#4E7391;
+    --rule:#CFC5B2;
+    --rule-soft:#DED5C4;
+    --shadow:rgba(22,36,58,.08);
+    --step--1:.82rem;
+    --step-0:1.06rem;
+    --step-1:1.35rem;
+    --step-2:1.85rem;
+    --step-3:2.6rem;
+    --step-4:4rem;
+    --measure:34rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#111C2E;
+      --raised:#182740;
+      --ink:#E9E1D3;
+      --ink-soft:#AEB6C4;
+      --ink-faint:#77808F;
+      --brass:#C9A46A;
+      --crystal:#9DB6C9;
+      --rule:#2C3A52;
+      --rule-soft:#22304A;
+      --shadow:rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#111C2E;
+    --raised:#182740;
+    --ink:#E9E1D3;
+    --ink-soft:#AEB6C4;
+    --ink-faint:#77808F;
+    --brass:#C9A46A;
+    --crystal:#9DB6C9;
+    --rule:#2C3A52;
+    --rule-soft:#22304A;
+    --shadow:rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Amiri","Times New Roman",serif;
+    font-size:var(--step-0);
+    line-height:1.85;
+    margin:0;
+    direction:rtl;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.6rem 6rem}
+  .lat{font-family:"Jost",system-ui,sans-serif;direction:ltr;unicode-bidi:isolate}
+
+  /* ---- plinth / hero ---- */
+  .plinth{
+    padding:5.5rem 0 3.5rem;
+    text-align:center;
+    position:relative;
+  }
+  .arch{display:block;margin:0 auto 2rem;width:104px;height:132px}
+  .arch path,.arch line{stroke:var(--brass);fill:none;stroke-width:1.25}
+  .arch .thin{stroke:var(--crystal);stroke-width:.75;opacity:.75}
+  .wordmark{
+    font-family:"Reem Kufi",sans-serif;
+    font-size:clamp(4.2rem,17vw,7.5rem);
+    font-weight:600;
+    line-height:1;
+    margin:0;
+    letter-spacing:.02em;
+  }
+  .romanized{
+    font-family:"Jost",sans-serif;
+    direction:ltr;
+    font-size:var(--step-0);
+    letter-spacing:.62em;
+    text-indent:.62em;
+    font-weight:400;
+    color:var(--brass);
+    margin:1.1rem 0 0;
+    text-transform:uppercase;
+  }
+  .promise{
+    font-family:"Reem Kufi",sans-serif;
+    font-size:var(--step-2);
+    font-weight:400;
+    margin:2.4rem 0 .4rem;
+    text-wrap:balance;
+  }
+  .promise-lat{
+    font-family:"Jost",sans-serif;direction:ltr;
+    font-size:var(--step-0);letter-spacing:.14em;
+    color:var(--ink-faint);text-transform:uppercase;margin:0;
+  }
+
+  /* ---- sections ---- */
+  section{
+    border-top:1px solid var(--rule);
+    padding:3.4rem 0 .6rem;
+  }
+  .label{
+    font-family:"Jost",sans-serif;
+    direction:ltr;
+    font-size:.68rem;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 1.6rem;
+    display:block;
+  }
+  h2{
+    font-family:"Reem Kufi",sans-serif;
+    font-size:var(--step-2);
+    font-weight:500;
+    line-height:1.4;
+    margin:0 0 1.4rem;
+    text-wrap:balance;
+  }
+  h3{
+    font-family:"Reem Kufi",sans-serif;
+    font-size:var(--step-1);
+    font-weight:500;
+    margin:2.2rem 0 .8rem;
+  }
+  p{max-width:var(--measure);margin:0 0 1.2rem}
+  strong{font-weight:700;color:var(--ink)}
+  em{font-style:italic;color:var(--crystal);font-weight:700}
+
+  /* ---- verse ---- */
+  .verse{
+    background:var(--raised);
+    border-inline-start:3px solid var(--brass);
+    padding:2rem 2rem 1.6rem;
+    margin:0 0 1.8rem;
+    box-shadow:0 1px 3px var(--shadow);
+  }
+  .verse .ayah{
+    font-family:"Amiri",serif;
+    font-size:var(--step-2);
+    line-height:2;
+    margin:0 0 .7rem;
+    max-width:none;
+    color:var(--ink);
+  }
+  .verse cite{
+    font-family:"Jost",sans-serif;
+    font-style:normal;
+    font-size:var(--step--1);
+    letter-spacing:.16em;
+    color:var(--ink-faint);
+    direction:rtl;
+  }
+
+  /* ---- two-column contrast ---- */
+  .cols{display:grid;grid-template-columns:1fr;gap:1.6rem;margin:1.6rem 0 .8rem}
+  @media(min-width:44rem){.cols{grid-template-columns:1fr 1fr;gap:2.4rem}}
+  .col{border-top:2px solid var(--rule);padding-top:1rem}
+  .col.is-yes{border-top-color:var(--brass)}
+  .col.is-no{border-top-color:var(--rule)}
+  .col h4{
+    font-family:"Reem Kufi",sans-serif;font-size:var(--step-1);
+    font-weight:500;margin:0 0 .8rem;
+  }
+  .col.is-no h4{color:var(--ink-faint)}
+  .col ul{margin:0;padding-inline-start:1.1rem}
+  .col li{margin-bottom:.55rem}
+  .col.is-no li{color:var(--ink-soft)}
+
+  /* ---- palette ---- */
+  .swatches{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:1rem;margin:1.6rem 0 2rem;
+  }
+  @media(min-width:44rem){.swatches{grid-template-columns:repeat(4,1fr)}}
+  .sw{border:1px solid var(--rule-soft);background:var(--raised)}
+  .sw .chip{height:76px;display:block}
+  .sw .meta{padding:.7rem .8rem .9rem}
+  .sw .nm{font-family:"Reem Kufi",sans-serif;font-size:1rem;display:block;margin-bottom:.15rem}
+  .sw .hex{
+    font-family:"Jost",sans-serif;direction:ltr;font-size:.72rem;
+    letter-spacing:.1em;color:var(--ink-faint);display:block;
+  }
+  .sw .why{font-size:.86rem;line-height:1.6;color:var(--ink-soft);display:block;margin-top:.4rem}
+
+  /* ---- type specimen ---- */
+  .spec{border:1px solid var(--rule-soft);background:var(--raised);padding:1.4rem 1.5rem;margin-bottom:1rem}
+  .spec .role{
+    font-family:"Jost",sans-serif;direction:ltr;font-size:.68rem;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.7rem;
+  }
+  .spec .sample-kufi{font-family:"Reem Kufi",sans-serif;font-size:2rem;line-height:1.5;margin:0}
+  .spec .sample-amiri{font-family:"Amiri",serif;font-size:1.35rem;line-height:1.9;margin:0}
+  .spec .sample-jost{font-family:"Jost",sans-serif;direction:ltr;font-size:1.5rem;letter-spacing:.2em;margin:0;font-weight:400}
+  .spec .note{font-size:.86rem;color:var(--ink-soft);margin:.7rem 0 0}
+
+  /* ---- product lines ---- */
+  .lines{display:grid;grid-template-columns:1fr;gap:0;margin:1.4rem 0 1.6rem;border-top:1px solid var(--rule-soft)}
+  .line{
+    display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:baseline;
+    border-bottom:1px solid var(--rule-soft);padding:1rem .2rem;
+  }
+  .line .ar{font-family:"Reem Kufi",sans-serif;font-size:var(--step-1);min-width:6.5rem}
+  .line .en{font-family:"Jost",sans-serif;direction:ltr;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);display:block;margin-top:.2rem}
+  .line .desc{color:var(--ink-soft);font-size:.95rem;line-height:1.7}
+
+  /* ---- alert ---- */
+  .alert{
+    background:var(--raised);
+    border:1px solid var(--brass);
+    padding:1.6rem 1.7rem;
+    margin:1.4rem 0 1.2rem;
+  }
+  .alert h3{margin-top:0}
+  .alert p:last-child{margin-bottom:0}
+
+  table{
+    width:100%;border-collapse:collapse;margin:1rem 0 1.6rem;
+    font-size:.95rem;
+  }
+  .scroll{overflow-x:auto}
+  th,td{text-align:right;padding:.72rem .5rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  th{
+    font-family:"Jost",sans-serif;font-size:.7rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--brass);font-weight:500;
+  }
+  td .num{font-family:"Jost",sans-serif;direction:ltr;font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+
+  ol.next{padding-inline-start:1.3rem;max-width:var(--measure)}
+  ol.next li{margin-bottom:.75rem}
+
+  footer{
+    border-top:1px solid var(--rule);margin-top:3rem;padding-top:1.6rem;
+    font-size:.86rem;color:var(--ink-faint);
+  }
+  ::selection{background:var(--brass);color:var(--ground)}
+  a{color:var(--crystal)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="plinth">
+    <svg class="arch" viewBox="0 0 104 132" aria-hidden="true">
+      <path d="M14 130 L14 56 Q14 14 52 14 Q90 14 90 56 L90 130"/>
+      <path class="thin" d="M26 130 L26 58 Q26 26 52 26 Q78 26 78 58 L78 130"/>
+      <line class="thin" x1="4" y1="130" x2="100" y2="130"/>
+      <line class="thin" x1="52" y1="26" x2="52" y2="130"/>
+    </svg>
+    <h1 class="wordmark">صَرْح</h1>
+    <p class="romanized">Sarh</p>
+    <p class="promise">يُشيَّد، لا يُصنَع</p>
+    <p class="promise-lat">Built, not made</p>
+  </header>
+
+  <section>
+    <span class="label">The Idea</span>
+    <h2>الفكرة</h2>
+
+    <div class="verse">
+      <p class="ayah">﴿قِيلَ لَهَا ٱدْخُلِى ٱلصَّرْحَ ۖ فَلَمَّا رَأَتْهُ حَسِبَتْهُ لُجَّةً وَكَشَفَتْ عَن سَاقَيْهَا﴾</p>
+      <cite>النمل ٤٤</cite>
+    </div>
+
+    <p>بنى سليمان قصراً من زجاج. ولمّا دخلته ملكة سبأ ظنّت أرضه ماءً، فرفعت ثوبها لتخوضه. <strong>صنعة بلغت من الإتقان أن خدعت ملكة.</strong></p>
+
+    <p>هذه هي العلامة كلها في سطر: <em>ما يُتقَن إلى حدّ يوقف الناظر.</em></p>
+
+    <p>ولهذا اخترنا الكلمة. الصَّرْح ليس بناءً فحسب — هو البناء الذي يُذكَر. وأنت لا تبيع نظارة وساعة وقلماً وغطاء رأس؛ تبيع <strong>ما يُقاس به مقام الرجل قبل أن يتكلم</strong>. الأربعة تشترك في هذا وحده.</p>
+  </section>
+
+  <section>
+    <span class="label">Positioning</span>
+    <h2>الموقع</h2>
+    <p>صَرْح علامة عُمانية لأشياء الرجل الصغيرة التي تُقرأ من بعيد. لا تلاحق الموضة، ولا تنافس على السعر، وتراهن على شيء واحد: <strong>أن يُمسك الزبون المنتج فيشعر بفرق قبل أن يعرف سببه.</strong></p>
+
+    <div class="cols">
+      <div class="col is-yes">
+        <h4>صَرْح هو</h4>
+        <ul>
+          <li>مبنيّ — وزن ملموس، حواف نظيفة، تشطيب لا يُخفي شيئاً</li>
+          <li>قليل — قطع محدودة تُعرَض طويلاً، لا كتالوج يتضخّم</li>
+          <li>هادئ — لا شعارات ظاهرة ولا زخرفة تطلب الانتباه</li>
+          <li>عُماني المنشأ، خليجي الطموح</li>
+        </ul>
+      </div>
+      <div class="col is-no">
+        <h4>صَرْح ليس</h4>
+        <ul>
+          <li>موضة سريعة تتبدّل كل موسم</li>
+          <li>متجر تخفيضات دائمة</li>
+          <li>علامة شبابية صاخبة</li>
+          <li>مقلّداً لبيت أزياء غربي بأسماء مستعارة</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="label">Voice</span>
+    <h2>الصوت</h2>
+    <p>يكتب صَرْح كما يبني: جُمل قصيرة، أفعال محدّدة، ولا مبالغة. الفخامة في ما يُترك لا في ما يُقال.</p>
+
+    <h3>قواعد ثابتة</h3>
+    <ul>
+      <li>فصحى مبسّطة. لا عامية في نصوص المنتج — العامية تنقض الوقار.</li>
+      <li>لا علامات تعجّب. لا إيموجي في وصف المنتج.</li>
+      <li>صِف الصنعة لا الشعور: «عدسة مصقولة» أفضل من «إطلالة ساحرة».</li>
+      <li>الإنجليزية بمفردات البناء: <span class="lat">built, cut, set, weight, line, finish</span>.</li>
+    </ul>
+
+    <h3>سطور جاهزة</h3>
+    <ul>
+      <li>يُشيَّد، لا يُصنَع. — <span class="lat">Built, not made.</span></li>
+      <li>ما يُتقَن، يُرى. — <span class="lat">Craft shows.</span></li>
+      <li>لكل مقامٍ ما يليق به.</li>
+      <li>الصنعة تسبق الكلام.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Palette</span>
+    <h2>اللوحة</h2>
+    <p>مأخوذة من حصون عُمان عند الغسق — لا من كليشيه الأسود والذهبي الذي تتشابه فيه كل علامات الخليج.</p>
+
+    <div class="swatches">
+      <div class="sw">
+        <span class="chip" style="background:#E9E1D3"></span>
+        <span class="meta">
+          <span class="nm">حَجَر</span>
+          <span class="hex lat">#E9E1D3</span>
+          <span class="why">حجر حصون نزوى وبهلاء. الأرضية في الوضع الفاتح.</span>
+        </span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#16243A"></span>
+        <span class="meta">
+          <span class="nm">لَيل</span>
+          <span class="hex lat">#16243A</span>
+          <span class="why">نيليّ عميق لا أسود. النص في الفاتح، والأرضية في الداكن.</span>
+        </span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#A67C46"></span>
+        <span class="meta">
+          <span class="nm">نُحاس</span>
+          <span class="hex lat">#A67C46</span>
+          <span class="why">نحاس معتّق لا ذهب لامع. يُستعمل بخلٍّ شديد.</span>
+        </span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#9DB6C9"></span>
+        <span class="meta">
+          <span class="nm">بلّور</span>
+          <span class="hex lat">#9DB6C9</span>
+          <span class="why">لون وهم الماء في أرض الصرح. للتفاصيل النادرة.</span>
+        </span>
+      </div>
+    </div>
+
+    <p><strong>قاعدة الاستعمال:</strong> الحجر والليل يحملان ٩٥٪ من كل تصميم. النحاس للتفصيلة الواحدة في الصفحة. البلّور أندر منه.</p>
+  </section>
+
+  <section>
+    <span class="label">Typography</span>
+    <h2>الخطوط</h2>
+    <p>الكوفي هو خط النقش المعماري — ما كان يُحفر في الجدران والقباب. علامة اسمها صَرْح تكتب باسمه.</p>
+
+    <div class="spec">
+      <span class="role">Wordmark &amp; headings — Reem Kufi</span>
+      <p class="sample-kufi">صَرْح — لكل مقامٍ ما يليق به</p>
+      <p class="note">كوفي هندسي. للشعار والعناوين فقط. الشعار يُكتب كتلةً مربعة تشبه بناءً.</p>
+    </div>
+
+    <div class="spec">
+      <span class="role">Body — Amiri</span>
+      <p class="sample-amiri">إطار ثنائي اللون يجمع بين هيكل شفاف وعدسة مصقولة تخفّف الوهج.</p>
+      <p class="note">نسخ كلاسيكي. لوصف المنتج والنصوص الطويلة.</p>
+    </div>
+
+    <div class="spec">
+      <span class="role">Latin &amp; data — Jost</span>
+      <p class="sample-jost">SARH — BUILT, NOT MADE</p>
+      <p class="note">هندسي بمزاج معماري. للإنجليزية والأرقام والملصقات. دائماً بتباعد حروف واسع.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="label">Product Architecture</span>
+    <h2>بنية المنتجات</h2>
+    <p>أربعة خطوط تحت اسم واحد. لا تخترع أسماء لكل خط — الاسم الواحد يبني الثقل، والتشتّت يبدّده.</p>
+
+    <div class="lines">
+      <div class="line">
+        <span class="ar">النَّظّارات<span class="en">Eyewear</span></span>
+        <span class="desc">الخط القائم اليوم. نقطة الدخول إلى العلامة.</span>
+      </div>
+      <div class="line">
+        <span class="ar">السَّاعات<span class="en">Watches</span></span>
+        <span class="desc">الخط الذي يحمل أعلى قيمة طلب. أولوية التوسّع الأولى.</span>
+      </div>
+      <div class="line">
+        <span class="ar">الأقلام<span class="en">Pens</span></span>
+        <span class="desc">أقوى خط هدايا — الأعياد والتخرّج والترقيات.</span>
+      </div>
+      <div class="line">
+        <span class="ar">الأغطية<span class="en">Headwear</span></span>
+        <span class="desc">الأقرب إلى الهوية المحلية، والأكثر عرضة لمنافسة قائمة.</span>
+      </div>
+    </div>
+
+    <h3>تسمية الإصدارات المحدودة</h3>
+    <p>حين تُطلق كبسولة موسمية، سمِّها بمفردة معمارية: <strong>القَوس</strong>، <strong>النافذة</strong>، <strong>المَشرَبيّة</strong>، <strong>القُبّة</strong>. يبقى العالم واحداً، وتكتسب كل إطلاقة اسماً يُتذكَّر.</p>
+  </section>
+
+  <section>
+    <span class="label">Customer</span>
+    <h2>العميل</h2>
+    <p>رجل عُماني بين ٢٨ و٤٥. موظف في موقع مسؤولية أو صاحب عمل. يلبس الدشداشة يومياً، فخياراته في الإضافات قليلة — ولذلك كل واحدة منها تُلاحَظ.</p>
+    <p>لا يطارد الموضة ولا يعرف أسماء المصمّمين، <strong>لكنه يميّز الجيّد من الرديء بيده في ثانيتين.</strong> يشتري مرة كل بضعة أشهر، ويشتري الأغلى ضمن ما يقدر عليه، ويحتفظ به سنوات.</p>
+    <p>لا يستجيب للإلحاح ولا للعدّادات التنازلية. يستجيب للدليل: صورة قريبة تُظهر الحوافّ، ووزن مذكور بالغرام، وضمان مكتوب.</p>
+  </section>
+
+  <section>
+    <span class="label">Commercial Decision</span>
+    <h2>القرار الذي يحسم نجاح الاسم</h2>
+
+    <div class="alert">
+      <h3>الاسم يفرض أرضية سعرك</h3>
+      <p>منتجك اليوم بـ <span class="num">9.900</span> ر.ع مع سعر مشطوب <span class="num">15.900</span> — أي خصم دائم <span class="num">38٪</span> على كل قطعة.</p>
+      <p><strong>هذا ينقض صَرْح نقضاً مباشراً.</strong> علامة تقوم على الإتقان والبقاء لا يمكن أن تكون في تخفيض دائم؛ الخصم الذي لا ينتهي يقول للزبون إن السعر الأصلي لم يكن حقيقياً — وإذا كذب السعر، كذبت الصنعة.</p>
+      <p>إمّا أن تحذف السعر المشطوب وتبيع بسعر واحد ثابت، وإمّا أن تختار اسماً لا يَعِد بما لا تنفّذه.</p>
+    </div>
+
+    <h3>أرضية السعر المقترحة</h3>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>الخط</th><th>النطاق (ر.ع)</th><th>المنطق</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>النظارات</td><td class="num">18 – 32</td><td>فوق سوق الـ<span class="num">10</span> ريالات، وتحت العلامات العالمية</td></tr>
+          <tr><td>الأقلام</td><td class="num">22 – 45</td><td>سعر الهدية المحترمة في عُمان</td></tr>
+          <tr><td>الساعات</td><td class="num">45 – 120</td><td>يرفع متوسط الطلب ويجعل الإعلان المدفوع ممكناً</td></tr>
+          <tr><td>الأغطية</td><td class="num">12 – 25</td><td>نقطة دخول، وتُباع مع غيرها لا وحدها</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>حسبنا سابقاً أن الطلب دون <span class="num">15</span> ر.ع لا يحتمل تكلفة الإعلان في الخليج. أرضية صَرْح تحلّ هذه المشكلة وتخدم الاسم في آن.</p>
+  </section>
+
+  <section>
+    <span class="label">Next</span>
+    <h2>الخطوات التالية</h2>
+    <ol class="next">
+      <li><strong>افحص الاسم قبل أي إنفاق.</strong> إنستغرام، وسجل العلامات في وزارة التجارة والصناعة وترويج الاستثمار. هذا الفحص هو ما أنقذك من طراز.</li>
+      <li><strong>احجز النطاق والمعرّفات.</strong> <span class="lat">darsarh.com</span> أو <span class="lat">sarhhouse.com</span>، ونفس المعرّف على إنستغرام وتيك توك وسناب شات وإكس في اليوم نفسه.</li>
+      <li><strong>احسم السعر.</strong> احذف السعر المشطوب، وأعد تسعير النظارات إلى أرضية صَرْح.</li>
+      <li><strong>طبّق الاسم على المتجر.</strong> المنتج ما زال باسم TIRAZ والباقي باسم MAYL — كلاهما اسم متروك.</li>
+      <li><strong>صوّر من جديد.</strong> اللوحة هنا تفترض صوراً على حجر وضوء طبيعي جانبي يُظهر الحواف. الصور الحالية لا تحمل هذه اللغة.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>دفتر صَرْح — تصوّر مبدئي للعلامة. اللوحة والخطوط والأسعار مقترحات قابلة للتعديل. لم تُفحص العلامة في سجلات الملكية الفكرية.</p>
+  </footer>
+
+</div>
