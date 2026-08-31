@@ -1,6 +1,6 @@
-# MAYL Store — Audit & Content
+# WAZN Store — Audit & Content
 
-Store: **MAYL** (`mayl-plus.myshopify.com`) · Basic plan · Oman · OMR
+Store: **WAZN** (`mayl-plus.myshopify.com`) · Basic plan · Oman · OMR
 
 ## Applied via API
 
@@ -35,7 +35,7 @@ After adding them, add footer links for `/policies/refund-policy`, `/policies/sh
 Confirm these match how the business actually runs, and edit before publishing:
 
 - 14-day return window
-- Customer pays return shipping on change-of-mind; MAYL pays on defective/wrong items
+- Customer pays return shipping on change-of-mind; WAZN pays on defective/wrong items
 - Order processing 1–2 business days (Sun–Thu)
 - Delivery 1–3 business days Muscat, 3–6 other governorates
 - Contact address `mind.balance77@gmail.com` (currently the store's only public contact)

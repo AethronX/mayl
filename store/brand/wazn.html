@@ -1,0 +1,385 @@
+<title>دفتر وَزْن</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;800&family=Almarai:wght@300;400;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#EFE9DD;
+    --raised:#F7F3EA;
+    --ink:#2B2C2E;
+    --ink-soft:#5C5E62;
+    --ink-faint:#918B7E;
+    --brass:#8A6530;
+    --patina:#4A6A5B;
+    --rule:#D3CAB8;
+    --rule-soft:#E2DACA;
+    --shadow:rgba(43,44,46,.09);
+    --s--1:.8rem;
+    --s0:1.05rem;
+    --s1:1.3rem;
+    --s2:1.8rem;
+    --s3:2.5rem;
+    --measure:34rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#1A1B1D;
+      --raised:#232528;
+      --ink:#EFE9DD;
+      --ink-soft:#B2AEA6;
+      --ink-faint:#7C7770;
+      --brass:#C79A55;
+      --patina:#7FA894;
+      --rule:#38393D;
+      --rule-soft:#2C2E31;
+      --shadow:rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#1A1B1D;
+    --raised:#232528;
+    --ink:#EFE9DD;
+    --ink-soft:#B2AEA6;
+    --ink-faint:#7C7770;
+    --brass:#C79A55;
+    --patina:#7FA894;
+    --rule:#38393D;
+    --rule-soft:#2C2E31;
+    --shadow:rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Almarai","Segoe UI",sans-serif;
+    font-size:var(--s0);
+    line-height:1.9;
+    margin:0;
+    direction:rtl;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.6rem 6rem}
+  .mono{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    direction:ltr;unicode-bidi:isolate;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* hero */
+  .top{padding:5rem 0 3.2rem;text-align:center}
+  .sanja{display:block;margin:0 auto 2.2rem;width:88px;height:104px}
+  .sanja .body{fill:var(--brass)}
+  .sanja .ring{fill:none;stroke:var(--brass);stroke-width:6}
+  .sanja .base{stroke:var(--patina);stroke-width:2}
+  .wordmark{
+    font-family:"Noto Kufi Arabic",sans-serif;
+    font-weight:800;
+    font-size:clamp(3.6rem,15vw,6.4rem);
+    line-height:1.1;margin:0;letter-spacing:-.01em;
+  }
+  .latin-mark{
+    font-family:"IBM Plex Mono",monospace;direction:ltr;
+    font-size:var(--s0);letter-spacing:.72em;text-indent:.72em;
+    color:var(--brass);margin:1rem 0 0;font-weight:500;
+  }
+  .tag{
+    font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;
+    font-size:var(--s2);margin:2.4rem 0 .5rem;text-wrap:balance;
+  }
+  .tag-en{
+    font-family:"IBM Plex Mono",monospace;direction:ltr;
+    font-size:.9rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0;
+  }
+
+  section{border-top:1px solid var(--rule);padding:3.2rem 0 .6rem}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;direction:ltr;
+    font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--brass);display:block;margin:0 0 1.5rem;
+  }
+  h2{
+    font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;
+    font-size:var(--s2);line-height:1.45;margin:0 0 1.3rem;text-wrap:balance;
+  }
+  h3{
+    font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;
+    font-size:var(--s1);margin:2.1rem 0 .7rem;
+  }
+  p{max-width:var(--measure);margin:0 0 1.15rem}
+  ul{max-width:var(--measure)}
+  li{margin-bottom:.5rem}
+  strong{font-weight:700}
+  em{font-style:normal;color:var(--patina);font-weight:700}
+
+  .pull{
+    background:var(--raised);border-inline-start:3px solid var(--brass);
+    padding:1.7rem 1.8rem;margin:0 0 1.6rem;box-shadow:0 1px 3px var(--shadow);
+  }
+  .pull p{margin:0;max-width:none;font-size:var(--s1);line-height:1.8}
+
+  .cols{display:grid;grid-template-columns:1fr;gap:1.5rem;margin:1.5rem 0 .6rem}
+  @media(min-width:44rem){.cols{grid-template-columns:1fr 1fr;gap:2.3rem}}
+  .col{border-top:2px solid var(--rule);padding-top:.9rem}
+  .col.yes{border-top-color:var(--brass)}
+  .col h4{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:var(--s1);margin:0 0 .7rem}
+  .col.no h4,.col.no li{color:var(--ink-soft)}
+  .col ul{margin:0;padding-inline-start:1.1rem}
+
+  .swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1.5rem 0 1.8rem}
+  @media(min-width:44rem){.swatches{grid-template-columns:repeat(4,1fr)}}
+  .sw{border:1px solid var(--rule-soft);background:var(--raised)}
+  .sw .chip{height:72px;display:block}
+  .sw .m{padding:.65rem .75rem .85rem;display:block}
+  .sw .nm{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:.98rem;display:block}
+  .sw .hex{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.7rem;color:var(--ink-faint);display:block;margin:.1rem 0 .35rem}
+  .sw .why{font-size:.84rem;line-height:1.6;color:var(--ink-soft);display:block}
+
+  .spec{border:1px solid var(--rule-soft);background:var(--raised);padding:1.3rem 1.4rem;margin-bottom:.9rem}
+  .spec .role{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.6rem}
+  .spec .kufi{font-family:"Noto Kufi Arabic",sans-serif;font-weight:800;font-size:1.9rem;line-height:1.5;margin:0}
+  .spec .alm{font-family:"Almarai",sans-serif;font-size:1.2rem;line-height:1.9;margin:0}
+  .spec .mn{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:1.25rem;letter-spacing:.16em;margin:0}
+  .spec .note{font-size:.84rem;color:var(--ink-soft);margin:.6rem 0 0}
+
+  .lines{border-top:1px solid var(--rule-soft);margin:1.3rem 0 1.4rem}
+  .line{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:baseline;border-bottom:1px solid var(--rule-soft);padding:.95rem .15rem}
+  .line .ar{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:var(--s1);min-width:6.5rem}
+  .line .en{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);display:block;margin-top:.15rem}
+  .line .d{color:var(--ink-soft);font-size:.94rem;line-height:1.75}
+
+  .alert{background:var(--raised);border:1px solid var(--brass);padding:1.5rem 1.6rem;margin:1.3rem 0 1.1rem}
+  .alert h3{margin-top:0}
+  .alert p:last-child{margin-bottom:0}
+
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;margin:.9rem 0 1.5rem;font-size:.94rem}
+  th,td{text-align:right;padding:.7rem .5rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  th{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:500;text-align:right}
+
+  ol.next{padding-inline-start:1.3rem;max-width:var(--measure)}
+  ol.next li{margin-bottom:.7rem}
+  footer{border-top:1px solid var(--rule);margin-top:2.8rem;padding-top:1.5rem;font-size:.84rem;color:var(--ink-faint)}
+  ::selection{background:var(--brass);color:var(--ground)}
+  a{color:var(--patina)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <svg class="sanja" viewBox="0 0 88 104" aria-hidden="true">
+      <circle class="ring" cx="44" cy="20" r="13"/>
+      <path class="body" d="M30 34 L58 34 L72 92 L16 92 Z"/>
+      <line class="base" x1="6" y1="99" x2="82" y2="99"/>
+    </svg>
+    <h1 class="wordmark">وَزْن</h1>
+    <p class="latin-mark">WAZN</p>
+    <p class="tag">يُعرَف بثِقَله</p>
+    <p class="tag-en">Known by weight</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">The Idea</span>
+    <h2>الفكرة</h2>
+
+    <div class="pull">
+      <p>أوّل ما يخبرك أن ما تمسكه حقيقي هو <strong>ثِقَله في يدك</strong>. قبل التشطيب، وقبل الاسم المطبوع — الوزن.</p>
+    </div>
+
+    <p>وللكلمة معنيان يعملان معاً:</p>
+    <ul>
+      <li><strong>الوزن</strong> هو ما تُقاس به النفائس. الذهب يُوزن، والفضة تُوزن، والصنعة تُعرف بثقلها.</li>
+      <li>و<strong>«رجلٌ له وزن»</strong> في العربية أي صاحب مكانة واعتبار — يُحسب له حساب.</li>
+    </ul>
+
+    <p>وهذا ما تبيعه بالضبط: <em>أشياء ثقيلة يحملها رجل له ثِقَل.</em> النظارة والساعة والقلم وغطاء الرأس تشترك في أنها صغيرة، تُحمل، وتُقرأ من بعيد.</p>
+
+    <p>ولهذا الاسم يصلح حيث فشل غيره: هو صفةٌ لشيءٍ صغير يُمسك باليد — لا لمبنى ولا لمؤسسة.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">The Standard</span>
+    <h2>المعيار — توقيع العلامة</h2>
+
+    <p>هذه هي الممارسة التي تفصلك عن كل منافس في عُمان، وهي مجانية:</p>
+
+    <div class="pull">
+      <p><strong>كل منتج يذكر وزنه بالغرام.</strong> على صفحة المنتج، وعلى العلبة، وفي الإعلان.</p>
+    </div>
+
+    <p>لا أحد في السوق المحلي يفعل هذا. والسبب بسيط: <strong>الرديء لا يستطيع.</strong> النظارة البلاستيكية الرخيصة تزن <span class="mono">18</span> غراماً؛ المصنوعة جيداً تزن <span class="mono">32</span>. الرقم وحده يفضح الفرق قبل أي كلام تسويقي.</p>
+
+    <p>هكذا يصبح اسمك <strong>وعداً قابلاً للتحقق</strong> لا شعاراً. والزبون الذي يتعلّم أن يسأل عن الوزن يصبح زبونك، لأنك الوحيد الذي يجيب.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Positioning</span>
+    <h2>الموقع</h2>
+    <p>وَزْن دار عُمانية لأشياء الرجل الصغيرة. لا تنافس على السعر، ولا تلاحق الموسم، وتراهن على لحظة واحدة: <strong>أن يمسك الزبون القطعة فيشعر بفرق قبل أن يعرف سببه.</strong></p>
+
+    <div class="cols">
+      <div class="col yes">
+        <h4>وَزْن هو</h4>
+        <ul>
+          <li>ثِقَل ملموس — يُذكر بالغرام دائماً</li>
+          <li>قليل — قطع محدودة تُعرض طويلاً</li>
+          <li>صريح — الخامات مسمّاة، لا صفات مبهمة</li>
+          <li>سعر واحد ثابت طوال العام</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h4>وَزْن ليس</h4>
+        <ul>
+          <li>موضة سريعة تتبدّل كل موسم</li>
+          <li>متجر تخفيضات دائمة</li>
+          <li>علامة شبابية صاخبة</li>
+          <li>مقلّداً لبيت أزياء غربي باسم مستعار</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Voice</span>
+    <h2>الصوت</h2>
+    <p>وَزْن يكتب كما يزن: بالرقم لا بالصفة.</p>
+    <ul>
+      <li><strong>الرقم قبل الوصف.</strong> «<span class="mono">32</span> غراماً» أقوى من «متين وفاخر».</li>
+      <li>فصحى مبسّطة. لا عامية في نصوص المنتج.</li>
+      <li>لا علامات تعجّب. لا إيموجي في وصف المنتج.</li>
+      <li>الإنجليزية بمفردات القياس: <span class="mono">weight, grams, set, cut, finish</span>.</li>
+    </ul>
+
+    <h3>سطور جاهزة</h3>
+    <ul>
+      <li>يُعرَف بثِقَله. — <span class="mono">Known by weight.</span></li>
+      <li>اسأل عن الوزن. — <span class="mono">Ask the weight.</span></li>
+      <li>ما له وزن، يبقى.</li>
+      <li>نذكر الغرامات لأن غيرنا لا يستطيع.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="eyebrow">Palette</span>
+    <h2>اللوحة</h2>
+    <p>مأخوذة من مادة <strong>الصَّنجة</strong> نفسها — أوزان الموازين تُصنع من النحاس، وتكتسي بالزنجار مع الزمن.</p>
+
+    <div class="swatches">
+      <div class="sw">
+        <span class="chip" style="background:#9A7239"></span>
+        <span class="m"><span class="nm">نُحاس</span><span class="hex mono">#9A7239</span><span class="why">معدن الصنجة. اللون الأساسي للعلامة.</span></span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#5E7D6E"></span>
+        <span class="m"><span class="nm">زِنجار</span><span class="hex mono">#5E7D6E</span><span class="why">خُضرة النحاس المعتّق. للتفاصيل النادرة.</span></span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#2B2C2E"></span>
+        <span class="m"><span class="nm">حديد</span><span class="hex mono">#2B2C2E</span><span class="why">النص في الفاتح، والأرضية في الداكن.</span></span>
+      </div>
+      <div class="sw">
+        <span class="chip" style="background:#EFE9DD"></span>
+        <span class="m"><span class="nm">عَظْم</span><span class="hex mono">#EFE9DD</span><span class="why">الأرضية في الوضع الفاتح.</span></span>
+      </div>
+    </div>
+
+    <p><strong>قاعدة الاستعمال:</strong> الحديد والعظم يحملان <span class="mono">95%</span> من كل تصميم. النحاس للتفصيلة الواحدة. الزنجار أندر منه — لا يظهر إلا مرة في الصفحة.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Typography</span>
+    <h2>الخطوط</h2>
+
+    <div class="spec">
+      <span class="role">Wordmark — Noto Kufi Arabic 800</span>
+      <p class="kufi">وَزْن</p>
+      <p class="note">كوفي ثقيل مربّع الكتلة. حروفه لها مساحة وثِقَل — وهذا هو الاسم نفسه.</p>
+    </div>
+
+    <div class="spec">
+      <span class="role">Body — Almarai</span>
+      <p class="alm">إطار ثنائي اللون بعدسة مصقولة. ٢٠٠ غرام مع العلبة.</p>
+      <p class="note">للنصوص الطويلة ووصف المنتج. واضح وحديث، لا يزاحم الشعار.</p>
+    </div>
+
+    <div class="spec">
+      <span class="role">All Latin &amp; figures — IBM Plex Mono</span>
+      <p class="mn">WAZN — 32 g</p>
+      <p class="note">كل الحروف اللاتينية والأرقام بخط ثابت العرض. قرار مقصود: العلامة عن القياس، والخط الموزون يقول ذلك قبل أن يُقرأ. الأرقام تصطفّ رأسياً في الجداول.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Logo</span>
+    <h2>الشعار</h2>
+    <p>العلامة المرسومة أعلى الصفحة هي <strong>الصَّنجة</strong> — وزن الميزان النحاسي: شبه منحرف بحلقة في أعلاه.</p>
+    <p>لماذا تعمل: تُقرأ فوراً كـ«وزن» بلا شرح، وتبقى واضحة عند حجم <span class="mono">16px</span> في تبويب المتصفح، وتُحفر على ذراع النظارة أو مشبك القلم بخط واحد.</p>
+    <p>والحرفان <span class="mono">W</span> و<span class="mono">Z</span> يعملان كعلامة مختصرة حين لا تتسع المساحة — أكثر حرفين زاوية في الأبجدية اللاتينية.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Product Architecture</span>
+    <h2>بنية المنتجات</h2>
+    <div class="lines">
+      <div class="line"><span class="ar">النَّظّارات<span class="en">Eyewear</span></span><span class="d">الخط القائم. نقطة الدخول إلى العلامة.</span></div>
+      <div class="line"><span class="ar">السَّاعات<span class="en">Watches</span></span><span class="d">أعلى قيمة طلب، وأقوى ارتباط بفكرة الوزن. أولوية التوسّع الأولى.</span></div>
+      <div class="line"><span class="ar">الأقلام<span class="en">Pens</span></span><span class="d">أقوى خط هدايا. القلم الفاخر يُقيَّم بثقله حرفياً.</span></div>
+      <div class="line"><span class="ar">الأغطية<span class="en">Headwear</span></span><span class="d">الأقرب للهوية المحلية، والأكثر عرضة لمنافسة قائمة.</span></div>
+    </div>
+
+    <h3>تسمية الإصدارات المحدودة</h3>
+    <p>سمِّ كل كبسولة بوحدة وزن عربية كلاسيكية: <strong>مِثقال</strong>، <strong>قِيراط</strong>، <strong>دِرْهَم</strong>، <strong>أُوقِيَّة</strong>. النظام يشرح نفسه، ويتّسع لسنوات، ولا يخرج عن عالم الاسم.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Customer</span>
+    <h2>العميل</h2>
+    <p>رجل عُماني بين <span class="mono">28</span> و<span class="mono">45</span>. موظف في موقع مسؤولية أو صاحب عمل. يلبس الدشداشة يومياً، فخياراته في الإضافات قليلة — ولذلك كل واحدة تُلاحَظ.</p>
+    <p>لا يعرف أسماء المصمّمين، <strong>لكنه يميّز الجيّد من الرديء بيده في ثانيتين.</strong> يشتري مرة كل بضعة أشهر، ويشتري الأغلى ضمن ما يقدر عليه، ويحتفظ به سنوات.</p>
+    <p>لا يستجيب للإلحاح ولا للعدّادات التنازلية. يستجيب للدليل: صورة قريبة تُظهر الحوافّ، ووزن بالغرام، وضمان مكتوب.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Commercial</span>
+    <h2>القرار الذي يحسم نجاح الاسم</h2>
+
+    <div class="alert">
+      <h3>الخصم الدائم ينقض الاسم</h3>
+      <p>منتجك اليوم بـ <span class="mono">9.900</span> ر.ع مع سعر مشطوب <span class="mono">15.900</span> — خصم دائم <span class="mono">38%</span> على كل قطعة.</p>
+      <p>علامة اسمها <strong>وَزْن</strong> تبيع الصدق في القياس. والسعر المشطوب الذي لا ينتهي هو <strong>قياس كاذب</strong> — يقول للزبون إن الرقم الأصلي لم يكن حقيقياً. وإذا كذب السعر، لم يصدّق أحد الغرامات.</p>
+      <p>احذف السعر المشطوب. سعر واحد ثابت، وهذا في ذاته موقف تسويقي تستطيع أن تعلنه.</p>
+    </div>
+
+    <h3>أرضية السعر المقترحة</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>الخط</th><th>النطاق (ر.ع)</th><th>المنطق</th></tr></thead>
+        <tbody>
+          <tr><td>النظارات</td><td class="mono">18 – 32</td><td>فوق سوق العشرة ريالات، وتحت العلامات العالمية</td></tr>
+          <tr><td>الأقلام</td><td class="mono">22 – 45</td><td>سعر الهدية المحترمة في عُمان</td></tr>
+          <tr><td>الساعات</td><td class="mono">45 – 120</td><td>يرفع متوسط الطلب ويجعل الإعلان المدفوع ممكناً</td></tr>
+          <tr><td>الأغطية</td><td class="mono">12 – 25</td><td>نقطة دخول، تُباع مع غيرها لا وحدها</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>الطلب دون <span class="mono">15</span> ر.ع لا يحتمل تكلفة الإعلان في الخليج. هذه الأرضية تحلّ المشكلة وتخدم الاسم معاً.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Next</span>
+    <h2>الخطوات التالية</h2>
+    <ol class="next">
+      <li><strong>افحص الاسم قبل أي إنفاق.</strong> إنستغرام، وسجل العلامات في وزارة التجارة والصناعة وترويج الاستثمار. هذا الفحص هو ما أنقذك من طراز.</li>
+      <li><strong>احجز النطاق والمعرّفات في اليوم نفسه.</strong> <span class="mono">darwazn.com</span> أو <span class="mono">waznhouse.com</span>، ونفس المعرّف على إنستغرام وتيك توك وسناب شات وإكس.</li>
+      <li><strong>غيّر اسم المتجر يدوياً.</strong> <span class="mono">Settings → Store details</span> — هذا الحقل الوحيد الذي لا يقبل التعديل عبر الواجهة البرمجية.</li>
+      <li><strong>الصق السياسات الثلاث.</strong> جاهزة باسم وَزْن في <span class="mono">store/policies/</span>.</li>
+      <li><strong>احسم السعر.</strong> احذف السعر المشطوب وأعد التسعير إلى الأرضية أعلاه.</li>
+      <li><strong>زِن المنتج فعلياً.</strong> الـ<span class="mono">200</span> غرام المسجّلة الآن تقديرية — وعلامة اسمها وَزْن لا تحتمل رقماً مُخمَّناً.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>دفتر وَزْن — تصوّر العلامة. اللوحة والخطوط والأسعار مقترحات قابلة للتعديل. لم تُفحص العلامة في سجلات الملكية الفكرية ولا على إنستغرام.</p>
+  </footer>
+
+</div>
