@@ -1,0 +1,303 @@
+<title>ميزان الأسماء</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;800&family=Almarai:wght@300;400;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#EFE9DD;
+    --surface:#F8F4EC;
+    --ink:#2B2C2E;
+    --ink-soft:#5C5E62;
+    --ink-faint:#918B7E;
+    --brass:#8A6530;
+    --brass-track:#DCD3C1;
+    --patina:#4A6A5B;
+    --rule:#D3CAB8;
+    --rule-soft:#E2DACA;
+    --shadow:rgba(43,44,46,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#1A1B1D;
+      --surface:#232528;
+      --ink:#EFE9DD;
+      --ink-soft:#B2AEA6;
+      --ink-faint:#7C7770;
+      --brass:#C79A55;
+      --brass-track:#34363A;
+      --patina:#7FA894;
+      --rule:#38393D;
+      --rule-soft:#2C2E31;
+      --shadow:rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#1A1B1D;
+    --surface:#232528;
+    --ink:#EFE9DD;
+    --ink-soft:#B2AEA6;
+    --ink-faint:#7C7770;
+    --brass:#C79A55;
+    --brass-track:#34363A;
+    --patina:#7FA894;
+    --rule:#38393D;
+    --rule-soft:#2C2E31;
+    --shadow:rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);color:var(--ink);
+    font-family:"Almarai","Segoe UI",sans-serif;
+    font-size:1.02rem;line-height:1.85;margin:0;direction:rtl;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:64rem;margin:0 auto;padding:0 1.4rem 5rem}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+
+  header.top{padding:3.6rem 0 2.2rem;border-bottom:1px solid var(--rule)}
+  h1{font-family:"Noto Kufi Arabic",sans-serif;font-weight:800;font-size:clamp(2rem,6vw,2.9rem);line-height:1.3;margin:0 0 .7rem}
+  .sub{color:var(--ink-soft);max-width:40rem;margin:0}
+
+  /* stat tiles */
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin:2rem 0 .4rem}
+  @media(min-width:46rem){.tiles{grid-template-columns:repeat(4,1fr)}}
+  .tile{border:1px solid var(--rule-soft);background:var(--surface);padding:1.1rem 1rem 1.2rem;box-shadow:0 1px 2px var(--shadow)}
+  .tile.lead{border-color:var(--brass);border-width:2px}
+  .tile .nm{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:1.15rem;display:block;margin-bottom:.1rem}
+  .tile .lat{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.66rem;letter-spacing:.2em;color:var(--brass);display:block;margin-bottom:.6rem}
+  .tile .score{font-family:"IBM Plex Mono",monospace;direction:ltr;font-variant-numeric:tabular-nums;font-size:2.3rem;font-weight:500;line-height:1;display:block}
+  .tile .of{font-size:.8rem;color:var(--ink-faint);display:block;margin-top:.25rem}
+  .tile .rank{font-size:.8rem;color:var(--ink-soft);display:block;margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--rule-soft)}
+
+  section{border-top:1px solid var(--rule);padding:2.8rem 0 .4rem;margin-top:2.4rem}
+  section:first-of-type{border-top:none;margin-top:1.6rem}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;direction:ltr;font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--brass);display:block;margin:0 0 1.3rem}
+  h2{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:1.7rem;line-height:1.45;margin:0 0 1.1rem;text-wrap:balance}
+  h3{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:1.22rem;margin:1.9rem 0 .6rem}
+  p{max-width:36rem;margin:0 0 1.05rem}
+  ul{max-width:36rem}li{margin-bottom:.5rem}
+  strong{font-weight:700}
+
+  /* matrix */
+  .scroll{overflow-x:auto;margin:1.2rem 0 1.4rem;border:1px solid var(--rule-soft);background:var(--surface)}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:44rem}
+  thead th{
+    font-family:"IBM Plex Mono",monospace;direction:ltr;
+    font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--brass);font-weight:500;text-align:center;
+    padding:.85rem .5rem;border-bottom:1px solid var(--rule);
+  }
+  thead th.crit{text-align:right;font-family:"Almarai",sans-serif;direction:rtl;letter-spacing:0;text-transform:none;font-size:.72rem;color:var(--ink-faint);width:12rem}
+  tbody td{padding:.6rem .5rem;border-bottom:1px solid var(--rule-soft);vertical-align:middle}
+  tbody td.crit{text-align:right;font-size:.9rem;line-height:1.5}
+  tbody tr:last-child td{border-bottom:none}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:.28rem;min-width:5.4rem}
+  .val{font-family:"IBM Plex Mono",monospace;direction:ltr;font-variant-numeric:tabular-nums;font-size:.9rem;font-weight:500}
+  .bar{width:100%;max-width:4.6rem;height:7px;background:var(--brass-track);border-radius:4px;overflow:hidden}
+  .bar span{display:block;height:100%;background:var(--brass);border-radius:4px}
+  .bar.weak{background:transparent;border:1.5px solid var(--brass);height:8px}
+  .bar.weak span{background:transparent}
+  .flag{font-size:.62rem;color:var(--ink-soft);letter-spacing:.02em}
+
+  .totals td{border-top:2px solid var(--rule);border-bottom:none;padding-top:.85rem}
+  .totals .val{font-size:1.15rem;font-weight:600}
+  .totals .crit{font-family:"Noto Kufi Arabic",sans-serif;font-weight:600;font-size:.95rem}
+
+  .legend{display:flex;flex-wrap:wrap;gap:1.3rem;font-size:.82rem;color:var(--ink-soft);margin:0 0 1.6rem;padding:0;list-style:none;max-width:none}
+  .legend li{display:flex;align-items:center;gap:.45rem;margin:0}
+  .key{width:26px;height:7px;border-radius:4px;background:var(--brass);flex:none}
+  .key.weak{background:transparent;border:1.5px solid var(--brass);height:8px}
+
+  .finding{background:var(--surface);border-inline-start:3px solid var(--brass);padding:1.4rem 1.5rem;margin:0 0 1.2rem;box-shadow:0 1px 2px var(--shadow)}
+  .finding h3{margin-top:0}
+  .finding p:last-child{margin-bottom:0}
+
+  footer{border-top:1px solid var(--rule);margin-top:2.6rem;padding-top:1.4rem;font-size:.82rem;color:var(--ink-faint)}
+  ::selection{background:var(--brass);color:var(--ground)}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <h1>ميزان الأسماء</h1>
+    <p class="sub">تقييم المرشحين الأربعة الناجين على أحد عشر معياراً معتمداً في تسمية العلامات التجارية. كل معيار من <span class="mono">10</span>.</p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile lead">
+      <span class="nm">مَحْتِد</span><span class="lat">MAHTAD</span>
+      <span class="score">7.6</span><span class="of">84 / 110</span>
+      <span class="rank">الأعلى إجمالاً</span>
+    </div>
+    <div class="tile">
+      <span class="nm">قِوام</span><span class="lat">QIWAM</span>
+      <span class="score">7.4</span><span class="of">81 / 110</span>
+      <span class="rank">الأقوى صلةً بالمنتج</span>
+    </div>
+    <div class="tile">
+      <span class="nm">وَزْن</span><span class="lat">WAZN</span>
+      <span class="score">7.1</span><span class="of">78 / 110</span>
+      <span class="rank">المطبَّق حالياً</span>
+    </div>
+    <div class="tile">
+      <span class="nm">مِثْقال</span><span class="lat">MITHQAL</span>
+      <span class="score">7.1</span><span class="of">78 / 110</span>
+      <span class="rank">الأقوى حمايةً</span>
+    </div>
+  </div>
+
+  <section>
+    <span class="eyebrow">The Matrix</span>
+    <h2>التقييم التفصيلي</h2>
+
+    <ul class="legend">
+      <li><span class="key"></span> الدرجة (كلما طال الشريط ارتفعت)</li>
+      <li><span class="key weak"></span> شريط مفرّغ = نقطة ضعف (<span class="mono">5</span> أو أقل)</li>
+    </ul>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="crit">المعيار</th>
+            <th>Mahtad</th><th>Qiwam</th><th>Wazn</th><th>Mithqal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="crit">التمايز<br><span class="flag">هل يقف وحده في فئته</span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">قابلية التذكر</td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">سهولة النطق<br><span class="flag">عربياً وإنجليزياً</span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+            <td><span class="cell"><span class="val">5</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">الكتابة من السماع<br><span class="flag">يسمعه فيكتبه صحيحاً</span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+            <td><span class="cell"><span class="val">5</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">4</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">الصلة بالمنتج</td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">الحماية القانونية<br><span class="flag">قابلية تسجيله كعلامة</span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+            <td><span class="cell"><span class="val">4</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">التوفر الرقمي<br><span class="flag">النطاق المجرد</span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">6</span><span class="bar"><span style="width:60%"></span></span></span></td>
+            <td><span class="cell"><span class="val">5</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+            <td><span class="cell"><span class="val">5</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">السلامة اللغوية<br><span class="flag">لا معنى سيئاً بلغة أخرى</span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">قابلية التوسع<br><span class="flag">يتّسع لفئات جديدة</span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">قوة الشعار<br><span class="flag">جودة الحروف بصرياً</span></td>
+            <td><span class="cell"><span class="val">5</span><span class="bar weak"><span></span></span><span class="flag">ضعف</span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+            <td><span class="cell"><span class="val">7</span><span class="bar"><span style="width:70%"></span></span></span></td>
+          </tr>
+          <tr>
+            <td class="crit">ملاءمة التموضع<br><span class="flag">هل يشبه الفخامة</span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">8</span><span class="bar"><span style="width:80%"></span></span></span></td>
+            <td><span class="cell"><span class="val">9</span><span class="bar"><span style="width:90%"></span></span></span></td>
+          </tr>
+          <tr class="totals">
+            <td class="crit">المجموع</td>
+            <td><span class="cell"><span class="val">84</span></span></td>
+            <td><span class="cell"><span class="val">81</span></span></td>
+            <td><span class="cell"><span class="val">78</span></span></td>
+            <td><span class="cell"><span class="val">78</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Findings</span>
+    <h2>ثلاث نتائج تغيّر القرار</h2>
+
+    <div class="finding">
+      <h3>١. لا يوجد اسم يتجاوز ٧٫٦ — لا خيار مثالياً</h3>
+      <p>الفارق بين الأول والرابع <strong>ست نقاط من ١١٠</strong> — أي ضمن هامش الخطأ في تقدير كهذا. أي اسم من الأربعة قابل للنجاح، والفشل أو النجاح سيأتي من التنفيذ لا من الاسم.</p>
+      <p>وهذا في ذاته جواب: <strong>التوقف عن البحث أهم من إيجاد اسم أفضل بنقطتين.</strong></p>
+    </div>
+
+    <div class="finding">
+      <h3>٢. أخطر ما في وَزْن ليس المعنى — بل الحماية القانونية</h3>
+      <p>سجّلت له <span class="mono">4/10</span> في قابلية التسجيل، وهي أدنى درجة في الجدول كله. والسبب مبدأ ثابت في قوانين العلامات: <strong>الكلمات الوصفية الشائعة يصعب حمايتها.</strong></p>
+      <p>«وَزْن» كلمة قاموسية تعني صفة يمكن أن توصف بها المنتجات نفسها. ومكاتب العلامات ترفض عادةً منح احتكار لكلمة وصفية عامة في فئة تصفها. والنتيجة العملية: قد تُسجَّل بصعوبة أو مقيّدة، وقد لا تستطيع منع منافس من استعمال الكلمة.</p>
+      <p>هذه نقطة لم أرفعها لك سابقاً، وهي أهم من نقاش الصلة بالمنتج.</p>
+    </div>
+
+    <div class="finding">
+      <h3>٣. فخّ الكتابة من السماع</h3>
+      <p><strong>قِوام</strong> و<strong>مِثْقال</strong> يتفوّقان في المعنى والحماية، ويسقطان في معيار يُستهان به: أن يسمع أحدهم الاسم فيكتبه صحيحاً.</p>
+      <p>QIWAM قد تُكتب <span class="mono">KIWAM</span> أو <span class="mono">QEWAM</span>؛ وMITHQAL أصعب. وهذا يقتل انتقال الاسم شفهياً — وهو أرخص قنوات النمو وأقواها في سوق صغير كعُمان.</p>
+      <p>وَزْن هو الأفضل في هذا المعيار تحديداً (<span class="mono">8/10</span>).</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Verdict</span>
+    <h2>ماذا يعني هذا عملياً</h2>
+
+    <p>القرار ليس «أي اسم أفضل» بل <strong>أي مقايضة تقبلها</strong>:</p>
+
+    <ul>
+      <li><strong>مَحْتِد</strong> — يفوز في المعايير المملّة التي تحمي المشروع: حماية قانونية، نطاق مجرد متاح، توسع. ويخسر في الشعار (حروف بلا تميّز) والصلة بالمنتج.</li>
+      <li><strong>قِوام</strong> — أقوى صلة بمنتجاتك الأربعة، وأقوى حرف للوجو. ويخسر في الكتابة من السماع.</li>
+      <li><strong>وَزْن</strong> — الأسهل نطقاً وكتابةً وتذكّراً، وشعاره ممتاز، ومطبَّق على متجرك بالكامل الآن. وأضعف الأربعة في الحماية القانونية.</li>
+      <li><strong>مِثْقال</strong> — الأفخم وقعاً والأقوى حمايةً. والأصعب على اللسان والقلم.</li>
+    </ul>
+
+    <h3>توصيتي</h3>
+    <p><strong>ابقَ على وَزْن</strong> ما لم يرفض مكتب العلامات تسجيله. الفارق مع الأول ست نقاط لا تبرّر تغييراً خامساً، والمتجر ودفتر العلامة مبنيان عليه.</p>
+    <p><strong>وإن رُفض التسجيل</strong> — وهذا احتمال حقيقي بحكم درجته — فانتقل إلى <strong>مَحْتِد</strong>، فهو المؤمَّن قانونياً ورقمياً.</p>
+    <p>الخطوة التالية واحدة ومحددة: <strong>راجع سجل العلامات في وزارة التجارة والصناعة وترويج الاستثمار قبل أي إنفاق.</strong> نتيجة تلك المراجعة تحسم الأمر أكثر من هذا الجدول كله.</p>
+  </section>
+
+  <footer>
+    <p>الدرجات تقدير مبني على معايير التسمية المتعارف عليها (التمايز، التذكر، النطق، الكتابة، الصلة، الحماية، التوفر، السلامة اللغوية، التوسع، الشعار، التموضع). درجات الحماية القانونية اجتهاد مبني على مبادئ عامة، وليست رأياً قانونياً ولا فحصاً في سجل العلامات. لم يُفحص أي اسم على إنستغرام.</p>
+  </footer>
+
+</div>
